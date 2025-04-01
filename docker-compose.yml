@@ -1,0 +1,29 @@
+version: "3.5"
+
+services:
+  mssql:
+    container_name: sql-server
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    restart: always
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "taskMan1234"
+    ports:
+      - 1433:1433
+    networks:
+      - default
+
+  task-manager-mq:
+    image: rabbitmq:management
+    container_name: TaskManager.RabbitMq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+
+networks:
+  default:
+    name: cinema-api
+    driver: bridge
